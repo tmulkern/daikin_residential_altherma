@@ -13,6 +13,8 @@ from homeassistant.const import (
     TEMP_CELSIUS,
 )
 
+from homeassistant.components.binary_sensor import BinarySensorDeviceClass
+
 DOMAIN = "daikin_residential_altherma"
 
 CONF_TOKENSET = CONF_TOKEN + "set"
@@ -134,6 +136,7 @@ SENSOR_TYPE_TEMPERATURE = "temperature"
 SENSOR_TYPE_POWER = "power"
 SENSOR_TYPE_ENERGY = "energy"
 SENSOR_TYPE_INFO = None
+SENSOR_TYPE_BINARY = None
 SENSOR_PERIOD_DAILY = "d"
 SENSOR_PERIOD_WEEKLY = "w"
 SENSOR_PERIOD_YEARLY = "m"
@@ -221,42 +224,42 @@ SENSOR_TYPES = {
     ATTR_IS_HOLIDAY_MODE_ACTIVE: {
         CONF_NAME: "Info is Holiday Mode Active",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
+        CONF_ICON: "mdi:beach",
         #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
     ATTR_IS_IN_EMERGENCY_STATE: {
         CONF_NAME: "Info is In Emergency State",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
-        #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
+        CONF_ICON: "mdi:car-brake-alert",
+        CONF_DEVICE_CLASS: BinarySensorDeviceClass.PROBLEM.value,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
     ATTR_IS_IN_ERROR_STATE: {
         CONF_NAME: "Info is In Error State",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
-        #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
+        CONF_ICON: "mdi:close-octagon",
+        CONF_DEVICE_CLASS: BinarySensorDeviceClass.PROBLEM.value,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
     ATTR_IS_IN_INSTALLER_STATE: {
         CONF_NAME: "Info is In Installer State",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
-        #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
+        CONF_ICON: "mdi:hammer-screwdriver",
+        CONF_DEVICE_CLASS: BinarySensorDeviceClass.LOCK.value,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
     ATTR_IS_IN_WARNING_STATE: {
         CONF_NAME: "Info is In Warning State",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
-        #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
+        CONF_ICON: "mdi:alert",
+        CONF_DEVICE_CLASS: BinarySensorDeviceClass.PROBLEM.value,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
     ATTR_ERROR_CODE: {
         CONF_NAME: "Info Error Code",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
+        CONF_ICON: "mdi:numeric",
         #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
@@ -270,49 +273,49 @@ SENSOR_TYPES = {
     ATTR_TANK_IS_HOLIDAY_MODE_ACTIVE: {
         CONF_NAME: "Info Tank is Holiday Mode Active",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
+        CONF_ICON: "mdi:beach",
         #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
     ATTR_TANK_IS_IN_EMERGENCY_STATE: {
         CONF_NAME: "Info Tank is In Emergency State",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
-        #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
+        CONF_ICON: "mdi:car-brake-alert",
+        CONF_DEVICE_CLASS: BinarySensorDeviceClass.PROBLEM.value,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
     ATTR_TANK_IS_IN_ERROR_STATE: {
         CONF_NAME: "Info Tank is In Error State",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
-        #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
+        CONF_ICON: "mdi:close-octagon",
+       CONF_DEVICE_CLASS: BinarySensorDeviceClass.PROBLEM.value,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
     ATTR_TANK_IS_IN_INSTALLER_STATE: {
         CONF_NAME: "Info Tank is In Installer State",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
-        #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
+        CONF_ICON: "mdi:hammer-screwdriver",
+        CONF_DEVICE_CLASS: BinarySensorDeviceClass.LOCK.value,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
     ATTR_TANK_IS_IN_WARNING_STATE: {
         CONF_NAME: "Info Tank is In Warning State",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
-        #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
+        CONF_ICON: "mdi:alert",
+        CONF_DEVICE_CLASS: BinarySensorDeviceClass.PROBLEM.value,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
     ATTR_TANK_IS_POWERFUL_MODE_ACTIVE: {
         CONF_NAME: "Info Tank is Powerful Mode Active",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
+        CONF_ICON: "mdi:weight-lifter",
         #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
-        ATTR_TANK_ERROR_CODE: {
+    ATTR_TANK_ERROR_CODE: {
         CONF_NAME: "Info Tank Error Code",
         CONF_TYPE: None,
-        CONF_ICON: "mdi:information-outline",
+        CONF_ICON: "mdi:numeric",
         #CONF_DEVICE_CLASS: DEVICE_CLASS_ENERGY,
         CONF_UNIT_OF_MEASUREMENT: " ",
     },
