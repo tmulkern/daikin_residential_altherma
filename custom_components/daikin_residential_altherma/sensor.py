@@ -142,41 +142,6 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
         else:
             _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT support_control_mode", sensor)
 
-        if device.support_is_holiday_mode_active:
-            sensor = DaikinSensor.factory(device, ATTR_IS_HOLIDAY_MODE_ACTIVE,"")
-            _LOGGER.debug("append sensor = %s", sensor)
-            sensors.append(sensor)
-        else:
-            _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT supports is_holiday_mode_active")
-
-        if device.support_is_in_emergency_state:
-            sensor = DaikinSensor.factory(device, ATTR_IS_IN_EMERGENCY_STATE,"")
-            _LOGGER.debug("append sensor = %s", sensor)
-            sensors.append(sensor)
-        else:
-            _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT supports is_in_emergency_state")
-
-        if device.support_is_in_error_state:
-            sensor = DaikinSensor.factory(device, ATTR_IS_IN_ERROR_STATE,"")
-            _LOGGER.debug("append sensor = %s", sensor)
-            sensors.append(sensor)
-        else:
-            _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT supports is_in_error_state")
-
-        if device.support_is_in_installer_state:
-            sensor = DaikinSensor.factory(device, ATTR_IS_IN_INSTALLER_STATE,"")
-            _LOGGER.debug("append sensor = %s", sensor)
-            sensors.append(sensor)
-        else:
-            _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT supports is_in_installer_state")
-
-        if device.support_is_in_warning_state:
-            sensor = DaikinSensor.factory(device, ATTR_IS_IN_WARNING_STATE,"")
-            _LOGGER.debug("append sensor = %s", sensor)
-            sensors.append(sensor)
-        else:
-            _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT supports is_in_warning_state")
-
         if device.support_error_code:
             sensor = DaikinSensor.factory(device, ATTR_ERROR_CODE,"")
             _LOGGER.debug("append sensor = %s", sensor)
@@ -194,49 +159,6 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
             _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT supports is_in_warning_state")
 
         # TANK
-        # TODO: ripartire da qui
-        if device.support_tank_is_holiday_mode_active:
-            sensor = DaikinSensor.factory(device, ATTR_TANK_IS_HOLIDAY_MODE_ACTIVE,"TANK")
-            _LOGGER.debug("append sensor = %s", sensor)
-            sensors.append(sensor)
-        else:
-            _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT supports is_holiday_mode_active")
-
-        if device.support_tank_is_in_emergency_state:
-            sensor = DaikinSensor.factory(device, ATTR_TANK_IS_IN_EMERGENCY_STATE,"TANK")
-            _LOGGER.debug("append sensor = %s", sensor)
-            sensors.append(sensor)
-        else:
-            _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT supports is_in_emergency_state")
-
-        if device.support_tank_is_in_error_state:
-            sensor = DaikinSensor.factory(device, ATTR_TANK_IS_IN_ERROR_STATE,"TANK")
-            _LOGGER.debug("append sensor = %s", sensor)
-            sensors.append(sensor)
-        else:
-            _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT supports is_in_error_state")
-
-        if device.support_tank_is_in_installer_state:
-            sensor = DaikinSensor.factory(device, ATTR_TANK_IS_IN_INSTALLER_STATE,"TANK")
-            _LOGGER.debug("append sensor = %s", sensor)
-            sensors.append(sensor)
-        else:
-            _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT supports is_in_installer_state")
-
-        if device.support_tank_is_in_warning_state:
-            sensor = DaikinSensor.factory(device, ATTR_TANK_IS_IN_WARNING_STATE,"TANK")
-            _LOGGER.debug("append sensor = %s", sensor)
-            sensors.append(sensor)
-        else:
-            _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT supports is_in_warning_state")
-
-        if device.support_tank_is_powerful_mode_active:
-            sensor = DaikinSensor.factory(device, ATTR_TANK_IS_POWERFUL_MODE_ACTIVE,"")
-            _LOGGER.debug("append sensor = %s", sensor)
-            sensors.append(sensor)
-        else:
-            _LOGGER.info("DAIKIN RESIDENTIAL ALTHERMA: device NOT supports is_powerful_mode_active")
-
         if device.support_tank_error_code:
             sensor = DaikinSensor.factory(device, ATTR_TANK_ERROR_CODE,"")
             _LOGGER.debug("append sensor = %s", sensor)
@@ -400,44 +322,11 @@ class DaikinInfoSensor(DaikinSensor):
         if self._device_attribute == ATTR_CONTROL_MODE:
             return self._device.control_mode
 
-        if self._device_attribute == ATTR_IS_HOLIDAY_MODE_ACTIVE:
-            return self._device.is_holiday_mode_active
-
-        if self._device_attribute == ATTR_IS_IN_EMERGENCY_STATE:
-            return self._device.is_in_emergency_state
-
-        if self._device_attribute == ATTR_IS_IN_ERROR_STATE:
-            return self._device.is_in_error_state
-
-        if self._device_attribute == ATTR_IS_IN_INSTALLER_STATE:
-            return self._device.is_in_installer_state
-
-        if self._device_attribute == ATTR_IS_IN_WARNING_STATE:
-            return self._device.is_in_warning_state
-
         if self._device_attribute == ATTR_ERROR_CODE:
             return self._device.error_code
 
         if self._device_attribute == ATTR_TANK_HEATUP_MODE:
             return self._device.heatupMode
-
-        if self._device_attribute == ATTR_TANK_IS_HOLIDAY_MODE_ACTIVE:
-            return self._device.tank_is_holiday_mode_active
-
-        if self._device_attribute == ATTR_TANK_IS_IN_EMERGENCY_STATE:
-            return self._device.tank_is_in_emergency_state
-
-        if self._device_attribute == ATTR_TANK_IS_IN_ERROR_STATE:
-            return self._device.tank_is_in_error_state
-
-        if self._device_attribute == ATTR_TANK_IS_IN_INSTALLER_STATE:
-            return self._device.tank_is_in_installer_state
-
-        if self._device_attribute == ATTR_TANK_IS_IN_WARNING_STATE:
-            return self._device.tank_is_in_warning_state
-
-        if self._device_attribute == ATTR_TANK_IS_POWERFUL_MODE_ACTIVE:
-            return self._device.tank_is_powerful_mode_active
 
         if self._device_attribute == ATTR_TANK_ERROR_CODE:
             return self._device.tank_error_code
