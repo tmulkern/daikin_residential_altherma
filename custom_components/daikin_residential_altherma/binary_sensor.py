@@ -204,8 +204,6 @@ class DaikinBinarySensor(BinarySensorEntity):
     def unique_id(self):
         """Return a unique ID."""
         devID = self._device.getId()
-        if self._period != "":
-            return f"{devID}_{self._device_attribute}_{self._period}"
         return f"{devID}_{self._device_attribute}"
 
     @property
