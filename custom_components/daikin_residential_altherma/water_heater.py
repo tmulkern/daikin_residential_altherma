@@ -103,6 +103,10 @@ class DaikinWaterHeater(WaterHeaterEntity):
         if operation_mode == STATE_OFF:
             await self._device.set_water_heater_operation_status(operation_mode,ATTR_STATE_OFF)
 
+    async def async_update(self):
+        """Retrieve latest state."""
+        await self._device.api.async_update()
+
     async def async_turn_on(self):
         """Turn device CLIMATE on."""
         await self._device.setValue(ATTR_ON_OFF_TANK, ATTR_STATE_ON)
