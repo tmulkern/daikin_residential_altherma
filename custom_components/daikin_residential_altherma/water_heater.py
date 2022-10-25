@@ -51,7 +51,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 async def async_setup_entry(hass, entry, async_add_entities):
     """Set up Daikin climate based on config_entry."""
     for dev_id, device in hass.data[DAIKIN_DOMAIN][DAIKIN_DEVICES].items():
-        async_add_entities([WaterHeaterEntity(device)], update_before_add=True)
+        async_add_entities([DaikinWaterHeater(device)], update_before_add=True)
     # daikin_api = hass.data[DAIKIN_DOMAIN].get(entry.entry_id)
     # async_add_entities([DaikinClimate(daikin_api)], update_before_add=True)
 
