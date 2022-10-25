@@ -8,15 +8,7 @@ from homeassistant.components.water_heater import (
 
     STATE_PERFORMANCE,
     STATE_HEAT_PUMP,
-    STATE_OFF,
-
-    SERVICE_SET_OPERATION_MODE,
-    SET_OPERATION_MODE_SCHEMA,
-    SERVICE_TURN_OFF,
-    SERVICE_TURN_ON,
-    ON_OFF_SERVICE_SCHEMA,
-
-    SCAN_INTERVAL   
+    STATE_OFF
 )
 from homeassistant.const import TEMP_CELSIUS
 
@@ -30,13 +22,6 @@ from custom_components.daikin_residential_altherma.const import (
 )
 
 from .daikin_base import Appliance
-
-import voluptuous as vol
-
-from homeassistant.config_entries import ConfigEntry
-from homeassistant.core import HomeAssistant
-from homeassistant.helpers.entity_component import EntityComponent
-from homeassistant.helpers.typing import ConfigType
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -60,7 +45,7 @@ class DaikinWaterHeater(WaterHeaterEntity):
         """Initialize the climate device."""
         print("DAMIANO Initializing WATER HEATER...")
         self._device = device
-        self.supported_features = WaterHeaterEntityFeature.OPERATION_MODE
+        self._supported_features = WaterHeaterEntityFeature.OPERATION_MODE
         self.operation_list = device.water_heater_operations
 
     @property

@@ -15,6 +15,11 @@ from homeassistant.const import (
 
 from homeassistant.components.binary_sensor import BinarySensorDeviceClass
 
+from homeassistant.components.water_heater import (
+    STATE_PERFORMANCE,
+    STATE_OFF
+)
+
 DOMAIN = "daikin_residential_altherma"
 
 CONF_TOKENSET = CONF_TOKEN + "set"
@@ -105,6 +110,11 @@ DAIKIN_CMD_SETS = {
         DP_TEMPERATURE,
         "/operationModes/%operationMode%/setpoints/roomTemperature",
     ],
+    ATTR_TARGET_LEAVINGWATER_TEMPERATURE: [
+        MP_CLIMATE,
+        DP_TEMPERATURE,
+        "/operationModes/%operationMode%/setpoints/roomTemperature",
+    ],
     ATTR_ENERGY_CONSUMPTION: [MP_CLIMATE, DP_CONSUMPTION, "/electrical"],
     ATTR_ENERGY_CONSUMPTION_TANK: [MP_DOMESTIC_HWT, DP_CONSUMPTION, "/electrical"],
     ATTR_SETPOINT_MODE: [MP_CLIMATE, "setpointMode", ""],
@@ -134,8 +144,8 @@ ATTR_STATE_OFF = "off"
 PRESET_BOOST= "boost"
 PRESET_TANK_ONOFF= "Tank"
 PRESET_SETPOINT_MODE = "setpointMode"
-DAIKIN_SWITCHES = [PRESET_BOOST,PRESET_TANK_ONOFF,] #PRESET_SETPOINT_MODE
-DAIKIN_SWITCHES_ICONS ={PRESET_BOOST:'mdi:bike-fast',PRESET_TANK_ONOFF: 'mdi:bathtub-outline',PRESET_SETPOINT_MODE:'mdi:thermometer-lines'}
+DAIKIN_SWITCHES = [STATE_PERFORMANCE,STATE_OFF,] #PRESET_SETPOINT_MODE
+DAIKIN_SWITCHES_ICONS ={STATE_PERFORMANCE:'mdi:bike-fast',STATE_PERFORMANCE: 'mdi:bathtub-outline',PRESET_SETPOINT_MODE:'mdi:thermometer-lines'}
 SWITCH_DEFAULT_ICON = "hass:air-filter"
 
 SENSOR_TYPE_TEMPERATURE = "temperature"

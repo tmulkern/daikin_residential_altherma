@@ -35,7 +35,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
 
         for switch in switches:
 
-            if device.support_preset_mode(switch):
+            if device.support_water_heater_operation(switch):
                 print("DAMIANO Adding Switch {}".format(switch))
                 async_add_entities([DaikinSwitch(device, switch)])
 
@@ -80,7 +80,7 @@ class DaikinSwitch(ToggleEntity):
     @property
     def is_on(self):
         """Return the state of the switch."""
-        return self._device.preset_mode_status(self._switch_id) == ATTR_STATE_ON
+        return self._device.water_heater_operation_status(self._switch_id) == ATTR_STATE_ON
 
     @property
     def device_info(self):
@@ -95,9 +95,9 @@ class DaikinSwitch(ToggleEntity):
     async def async_turn_on(self, **kwargs):
         """Turn the zone on."""
         print("DAMIANO {}: SWITCH TO {}".format(self._switch_id, ATTR_STATE_ON))
-        await self._device.set_preset_mode_status(self._switch_id, ATTR_STATE_ON)
+        await self._device.set_water_heater_operation_status(self._switch_id, ATTR_STATE_ON)
 
     async def async_turn_off(self, **kwargs):
         """Turn the zone off."""
         print("DAMIANO {} SWITCH TO: {}".format(self._switch_id, ATTR_STATE_ON))
-        await self._device.set_preset_mode_status(self._switch_id, ATTR_STATE_OFF)
+        await self._device.set_water_heater_operation_status(self._switch_id, ATTR_STATE_OFF)
