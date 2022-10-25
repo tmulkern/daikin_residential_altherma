@@ -105,7 +105,7 @@ DAIKIN_CMD_SETS = {
     ATTR_TARGET_TANK_TEMPERATURE: [
         MP_DOMESTIC_HWT,
         DP_TEMPERATURE,
-        "/operationModes/%operationMode%/setpoints/domesticHotWaterTemperature",
+        "/operationModes/heating/setpoints/domesticHotWaterTemperature",
     ],
     ATTR_TARGET_ROOM_TEMPERATURE: [
         MP_CLIMATE,
