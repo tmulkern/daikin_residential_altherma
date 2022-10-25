@@ -204,8 +204,8 @@ class Appliance(DaikinResidentialDevice):  # pylint: disable=too-many-public-met
         """Return current Water Heater mode."""
         operation = STATE_OFF
         if self.getValue(ATTR_ON_OFF_TANK) != ATTR_STATE_OFF:
-            if self._device.support_tank_is_powerful_mode_active:
-                return STATE_PERFORMANCE if self._device.tank_is_powerful_mode_active else STATE_HEAT_PUMP
+            if self.support_tank_is_powerful_mode_active:
+                return STATE_PERFORMANCE if self.tank_is_powerful_mode_active else STATE_HEAT_PUMP
             else:
                 return STATE_HEAT_PUMP
         return operation
@@ -252,15 +252,6 @@ class Appliance(DaikinResidentialDevice):  # pylint: disable=too-many-public-met
         """Return True if the device supports water heater operation."""
         mode = HA_WATER_HEATER_STATE_TO_DAIKIN[mode]
         return self.getData(mode) is not None
-
-    def water_heater_operation_status(self, mode):
-        """Return the water heater operation status."""
-        mode = HA_WATER_HEATER_STATE_TO_DAIKIN[mode]
-        if self.getData(mode) is None:
-            return False
-        status = self.getValue(mode)
-        #print("    DAMIANO Mode {}: {}".format(mode,status))
-        return self.getValue(mode)
 
     async def set_water_heater_operation_status(self, mode, status):
         """Set the water heater operation status."""

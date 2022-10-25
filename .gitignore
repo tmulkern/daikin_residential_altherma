@@ -29,3 +29,4 @@ custom_components/daikin_residential_altherma/.vscode/**
 custom_components/daikin_residential_altherma/__pycache__/**
 
 .vscode/settings.json
+.vscode/launch.json
