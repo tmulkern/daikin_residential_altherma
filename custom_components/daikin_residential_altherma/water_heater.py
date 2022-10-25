@@ -3,27 +3,84 @@ import logging
 from homeassistant.components.water_heater import (
     WaterHeaterEntity,
     WaterHeaterEntityFeature,
-    ATTR_OPERATION_LIST,
-    ATTR_MAX_TEMP,
-    ATTR_MIN_TEMP,
 
     WaterHeaterEntityFeature,
 
     STATE_PERFORMANCE,
     STATE_HEAT_PUMP,
-    STATE_OFF
+    STATE_OFF,
+
+    SERVICE_SET_OPERATION_MODE,
+    SET_OPERATION_MODE_SCHEMA,
+    SERVICE_TURN_OFF,
+    SERVICE_TURN_ON,
+    ON_OFF_SERVICE_SCHEMA,
+
+    SCAN_INTERVAL   
 )
-from homeassistant.const import ATTR_TEMPERATURE, CONF_HOST, CONF_NAME, TEMP_CELSIUS
+from homeassistant.const import TEMP_CELSIUS
 
 from custom_components.daikin_residential_altherma.const import (
-    ATTR_TANK_TEMPERATURE,
-    ATTR_TARGET_TANK_TEMPERATURE,
+    DOMAIN as DAIKIN_DOMAIN,
+    DAIKIN_DEVICES,
+    ATTR_ON_OFF_TANK,
     ATTR_STATE_OFF,
     ATTR_STATE_ON
 
 )
 
 from .daikin_base import Appliance
+
+import voluptuous as vol
+
+from homeassistant.config_entries import ConfigEntry
+from homeassistant.core import HomeAssistant
+from homeassistant.helpers.entity_component import EntityComponent
+from homeassistant.helpers.typing import ConfigType
+
+_LOGGER = logging.getLogger(__name__)
+
+async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
+    """Set up water_heater devices."""
+
+    for dev_id, device in hass.data[DAIKIN_DOMAIN][DAIKIN_DEVICES].items():
+
+        component = hass.data[DAIKIN_DOMAIN] = EntityComponent[DaikinWaterHeater(device)](
+            _LOGGER, DAIKIN_DOMAIN, hass, SCAN_INTERVAL
+        )
+        await component.async_setup(config)
+
+        component.async_register_entity_service(
+            SERVICE_SET_OPERATION_MODE,
+            SET_OPERATION_MODE_SCHEMA,
+            "async_set_operation_mode",
+        )
+        component.async_register_entity_service(
+            SERVICE_TURN_OFF, ON_OFF_SERVICE_SCHEMA, "async_turn_off"
+        )
+        component.async_register_entity_service(
+            SERVICE_TURN_ON, ON_OFF_SERVICE_SCHEMA, "async_turn_on"
+        )
+
+    return True
+
+
+async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Set up a config entry."""
+    setup_entry_success=True
+    
+    for dev_id, device in hass.data[DAIKIN_DOMAIN][DAIKIN_DEVICES].items():
+        component: EntityComponent[WaterHeaterEntity(device)] = hass.data[DAIKIN_DOMAIN]
+        setup_entry_success = setup_entry_success and await component.async_setup_entry(entry)   
+    return setup_entry_success 
+
+async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
+    """Unload a config entry."""
+
+    for dev_id, device in hass.data[DAIKIN_DOMAIN][DAIKIN_DEVICES].items():
+        component: EntityComponent[WaterHeaterEntity(device)] = hass.data[DAIKIN_DOMAIN]
+        unload_entry_success = unload_entry_success and await component.async_unload_entry(entry)   
+    return unload_entry_success
 
 
 class DaikinWaterHeater(WaterHeaterEntity):
@@ -72,3 +129,11 @@ class DaikinWaterHeater(WaterHeaterEntity):
 
         if operation_mode == STATE_OFF:
             await self._device.set_water_heater_operation_status(operation_mode,ATTR_STATE_OFF)
+
+    async def async_turn_on(self):
+        """Turn device CLIMATE on."""
+        await self._device.setValue(ATTR_ON_OFF_TANK, ATTR_STATE_ON)
+
+    async def async_turn_off(self):
+        """Turn device CLIMATE off."""
+        await self._device.setValue(ATTR_ON_OFF_TANK, ATTR_STATE_OFF)
