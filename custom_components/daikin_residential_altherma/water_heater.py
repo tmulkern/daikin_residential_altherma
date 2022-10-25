@@ -40,47 +40,20 @@ from homeassistant.helpers.typing import ConfigType
 
 _LOGGER = logging.getLogger(__name__)
 
-async def async_setup(hass: HomeAssistant, config: ConfigType) -> bool:
-    """Set up water_heater devices."""
 
+async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
+    """Old way of setting up the Daikin HVAC platform.
+
+    Can only be called when a user accidentally mentions the platform in their
+    config. But even in that case it would have been ignored.
+    """
+
+async def async_setup_entry(hass, entry, async_add_entities):
+    """Set up Daikin climate based on config_entry."""
     for dev_id, device in hass.data[DAIKIN_DOMAIN][DAIKIN_DEVICES].items():
-
-        component = hass.data[DAIKIN_DOMAIN] = EntityComponent[DaikinWaterHeater(device)](
-            _LOGGER, DAIKIN_DOMAIN, hass, SCAN_INTERVAL
-        )
-        await component.async_setup(config)
-
-        component.async_register_entity_service(
-            SERVICE_SET_OPERATION_MODE,
-            SET_OPERATION_MODE_SCHEMA,
-            "async_set_operation_mode",
-        )
-        component.async_register_entity_service(
-            SERVICE_TURN_OFF, ON_OFF_SERVICE_SCHEMA, "async_turn_off"
-        )
-        component.async_register_entity_service(
-            SERVICE_TURN_ON, ON_OFF_SERVICE_SCHEMA, "async_turn_on"
-        )
-
-    return True
-
-
-async def async_setup_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Set up a config entry."""
-    setup_entry_success=True
-    
-    for dev_id, device in hass.data[DAIKIN_DOMAIN][DAIKIN_DEVICES].items():
-        component: EntityComponent[WaterHeaterEntity(device)] = hass.data[DAIKIN_DOMAIN]
-        setup_entry_success = setup_entry_success and await component.async_setup_entry(entry)   
-    return setup_entry_success 
-
-async def async_unload_entry(hass: HomeAssistant, entry: ConfigEntry) -> bool:
-    """Unload a config entry."""
-
-    for dev_id, device in hass.data[DAIKIN_DOMAIN][DAIKIN_DEVICES].items():
-        component: EntityComponent[WaterHeaterEntity(device)] = hass.data[DAIKIN_DOMAIN]
-        unload_entry_success = unload_entry_success and await component.async_unload_entry(entry)   
-    return unload_entry_success
+        async_add_entities([WaterHeaterEntity(device)], update_before_add=True)
+    # daikin_api = hass.data[DAIKIN_DOMAIN].get(entry.entry_id)
+    # async_add_entities([DaikinClimate(daikin_api)], update_before_add=True)
 
 
 class DaikinWaterHeater(WaterHeaterEntity):
