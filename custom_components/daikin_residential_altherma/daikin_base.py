@@ -283,19 +283,19 @@ class Appliance(DaikinResidentialDevice):  # pylint: disable=too-many-public-met
     @property
     def tank_target_temperature(self):
         """Return tank target temperature."""
-        fl = float(self.get_value(ATTR_TARGET_TANK_TEMPERATURE))
+        fl = float(self.getValue(ATTR_TARGET_TANK_TEMPERATURE))
         return fl
 
     @property
     def tank_target_temperature_min(self):
         """Return tank target min temperature."""
-        fl = float(self.get_data(ATTR_TARGET_TANK_TEMPERATURE)["minValue"])
+        fl = float(self.getData(ATTR_TARGET_TANK_TEMPERATURE)["minValue"])
         return fl
 
     @property
     def tank_target_temperature_max(self):
         """Return tank target max temperature."""
-        fl = float(self.get_data(ATTR_TARGET_TANK_TEMPERATURE)["maxValue"])
+        fl = float(self.getData(ATTR_TARGET_TANK_TEMPERATURE)["maxValue"])
         return fl
 
     # support_leaving_water_offset
