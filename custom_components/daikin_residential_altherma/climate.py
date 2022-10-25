@@ -36,6 +36,8 @@ from .const import (
     ATTR_STATE_ON,
 )
 
+from .daikin_base import Appliance
+
 _LOGGER = logging.getLogger(__name__)
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
@@ -43,7 +45,7 @@ PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
 )
 
 
-PRESET_MODES = {PRESET_BOOST, PRESET_COMFORT, PRESET_ECO, PRESET_AWAY}
+PRESET_MODES = {PRESET_COMFORT, PRESET_ECO, PRESET_AWAY}
 
 HA_HVAC_TO_DAIKIN = {
     HVAC_MODE_COOL: "cooling",
@@ -82,7 +84,7 @@ async def async_setup_entry(hass, entry, async_add_entities):
 class DaikinClimate(ClimateEntity):
     """Representation of a Daikin HVAC."""
 
-    def __init__(self, device):
+    def __init__(self, device:Appliance):
         """Initialize the climate device."""
         print("DAMIANO Initializing CLIMATE...")
         self._device = device
@@ -95,6 +97,8 @@ class DaikinClimate(ClimateEntity):
         if self._device.support_room_temperature:
             self._supported_features = SUPPORT_TARGET_TEMPERATURE
         elif self._device.support_leaving_water_offset:
+            self._supported_features = SUPPORT_TARGET_TEMPERATURE
+        elif self._device.support_leaving_water_temperature:
             self._supported_features = SUPPORT_TARGET_TEMPERATURE
         else:
             self._supported_features = 0
@@ -199,6 +203,8 @@ class DaikinClimate(ClimateEntity):
         if self._device.support_leaving_water_offset:
             return self._device.leaving_water_offset
 
+        if self._device.support_leaving_water_temperature:
+            return self._device.leaving_water_temperature
         else:
             return None
 
