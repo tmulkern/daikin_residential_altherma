@@ -213,10 +213,10 @@ class Appliance(DaikinResidentialDevice):  # pylint: disable=too-many-public-met
     @property
     def water_heater_operations(self):
         """Return the list of available Water Heater modes."""
-        operation = [STATE_OFF,STATE_HEAT_PUMP]
+        operations = [STATE_OFF,STATE_HEAT_PUMP]
         if self.support_tank_is_powerful_mode_active:
-            operation.append(STATE_PERFORMANCE)
-        return operation
+            operations.append(STATE_PERFORMANCE)
+        return operations
 
     async def async_set_hvac_mode(self, hvac_mode):
         """Set HVAC mode."""
@@ -390,7 +390,7 @@ class Appliance(DaikinResidentialDevice):  # pylint: disable=too-many-public-met
         if operationMode not in ["auto", "cooling", "heating"]:
             return None
 
-        controlMode = self.get_value(ATTR_CONTROL_MODE)
+        controlMode = self.getValue(ATTR_CONTROL_MODE)
 
         if controlMode == ATTR_ROOM_TEMPERATURE:
             return float(self.getValue(ATTR_TARGET_ROOM_TEMPERATURE))

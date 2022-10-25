@@ -37,7 +37,6 @@ async def async_setup_entry(hass, entry, async_add_entities):
     """Set up Daikin climate based on config_entry."""
     for dev_id, device in hass.data[DAIKIN_DOMAIN][DAIKIN_DEVICES].items():
         async_add_entities([DaikinWaterHeater(device)], update_before_add=True)
-        _LOGGER.info("Adding Water Heater Entries")
 
 class DaikinWaterHeater(WaterHeaterEntity):
 
@@ -46,12 +45,16 @@ class DaikinWaterHeater(WaterHeaterEntity):
         print("DAMIANO Initializing WATER HEATER...")
         self._device = device
         self._supported_features = WaterHeaterEntityFeature.OPERATION_MODE
-        self._operation_list = device.water_heater_operations
 
     @property
     def available(self):
         """Return the availability of the underlying device."""
         return self._device.available
+
+    @property
+    def operation_list(self):
+        """Return the list of available operation modes."""
+        return self._device.water_heater_operations
 
     @property
     def supported_features(self):
