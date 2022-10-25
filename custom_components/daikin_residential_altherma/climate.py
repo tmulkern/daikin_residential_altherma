@@ -197,16 +197,7 @@ class DaikinClimate(ClimateEntity):
     @property
     def target_temperature(self):
         """Return the temperature we try to reach."""
-        if self._device.support_room_temperature:
-            return self._device.target_temperature
-
-        if self._device.support_leaving_water_offset:
-            return self._device.leaving_water_offset
-
-        if self._device.support_leaving_water_temperature:
-            return self._device.leaving_water_temperature
-        else:
-            return None
+        return self._device.target_temperature
 
     @property
     def target_temperature_step(self):

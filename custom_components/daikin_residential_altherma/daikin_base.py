@@ -8,9 +8,9 @@ from .device import DaikinResidentialDevice
 
 from .const import(
     ATTR_TANK_ERROR_CODE,
+    ATTR_EXTERNAL_ROOM_TEMPERATURE,
+    ATTR_TARGET_LEAVINGWATER_TEMPERATURE,
     ATTR_TARGET_TANK_TEMPERATURE,
-    PRESET_BOOST,
-    PRESET_TANK_ONOFF,
     PRESET_SETPOINT_MODE,
     ATTR_LEAVINGWATER_TEMPERATURE,
     ATTR_OUTSIDE_TEMPERATURE,
@@ -55,7 +55,6 @@ from homeassistant.components.climate.const import (
     HVAC_MODE_OFF,
     PRESET_AWAY,
     PRESET_COMFORT,
-    PRESET_BOOST,
     PRESET_ECO,
     PRESET_NONE,
     DEFAULT_MAX_TEMP,
@@ -386,11 +385,21 @@ class Appliance(DaikinResidentialDevice):  # pylint: disable=too-many-public-met
     @property
     def target_temperature(self):
         """Return current target temperature."""
-        if self.support_room_temperature:
-            operationMode = self.getValue(ATTR_OPERATION_MODE)
-            if operationMode not in ["auto", "cooling", "heating"]:
-                return None
+
+        operationMode = self.getValue(ATTR_OPERATION_MODE)
+        if operationMode not in ["auto", "cooling", "heating"]:
+            return None
+
+        controlMode = self.get_value(ATTR_CONTROL_MODE)
+
+        if controlMode == ATTR_ROOM_TEMPERATURE:
             return float(self.getValue(ATTR_TARGET_ROOM_TEMPERATURE))
+        if controlMode == ATTR_LEAVINGWATER_OFFSET:
+            return float(self.getValue(ATTR_LEAVINGWATER_OFFSET))
+        if controlMode == ATTR_EXTERNAL_ROOM_TEMPERATURE:
+            return float(self.getValue(ATTR_TARGET_LEAVINGWATER_TEMPERATURE))
+           
+        
         return None
 
     @property
