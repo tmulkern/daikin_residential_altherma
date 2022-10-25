@@ -28,7 +28,7 @@ TOKENSET_FILE = "tokenset.json"
 
 MIN_TIME_BETWEEN_UPDATES = datetime.timedelta(seconds=2)
 
-COMPONENT_TYPES = ["climate","water_heater" "sensor", "switch","binary_sensor"]
+COMPONENT_TYPES = ["climate","water_heater", "sensor", "switch","binary_sensor"]
 
 
 CONFIG_SCHEMA = vol.Schema(
