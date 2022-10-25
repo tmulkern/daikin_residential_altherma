@@ -110,19 +110,8 @@ class Appliance(DaikinResidentialDevice):  # pylint: disable=too-many-public-met
 
     def getCommandSet(self, param):
         if param in HA_PRESET_TO_DAIKIN.values():
-            def keyByVal(dict,v):
-                for k, v in dict.items():
-                    if v == param:
-                        return v
-                    else:
-                        continue
-                return None
-            if keyByVal(HA_PRESET_TO_DAIKIN,"Tank") == param:
-                cmd_set = DAIKIN_CMD_SETS[ATTR_ON_OFF_TANK].copy()
-                cmd_set[1] = param
-            else:
-                cmd_set = DAIKIN_CMD_SETS[ATTR_PRESET_MODE].copy()
-                cmd_set[1] = param
+            cmd_set = DAIKIN_CMD_SETS[ATTR_PRESET_MODE].copy()
+            cmd_set[1] = param
         else:
             if "@Tank" not in param:
                 cmd_set = DAIKIN_CMD_SETS[param].copy()
