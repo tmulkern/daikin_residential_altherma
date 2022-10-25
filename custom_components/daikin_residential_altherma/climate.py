@@ -229,6 +229,7 @@ class DaikinClimate(ClimateEntity):
     async def async_set_hvac_mode(self, hvac_mode):
         """Set HVAC mode."""
         await self._device.async_set_hvac_mode(HA_HVAC_TO_DAIKIN[hvac_mode])
+        await self._device.api.async_update()
 
     @property
     def preset_mode(self):
@@ -259,20 +260,12 @@ class DaikinClimate(ClimateEntity):
     async def async_turn_on(self):
         """Turn device CLIMATE on."""
         await self._device.setValue(ATTR_ON_OFF_CLIMATE, ATTR_STATE_ON)
+        await self._device.api.async_update()
 
     async def async_turn_off(self):
         """Turn device CLIMATE off."""
         await self._device.setValue(ATTR_ON_OFF_CLIMATE, ATTR_STATE_OFF)
-
-    # async def async_turn_tank_on(self):
-    #     """Turn device TANK on."""
-    #     print("DAMIANO {} to on".format(self._device))
-    #     await self._device.setValue(ATTR_ON_OFF_TANK, ATTR_STATE_ON)
-
-    # async def async_turn_tank_off(self):
-    #     """Turn device TANK off."""
-    #     print("DAMIANO {} to off".format(self._device))
-    #     await self._device.setValue(ATTR_ON_OFF_TANK, ATTR_STATE_OFF)
+        await self._device.api.async_update()
 
     @property
     def device_info(self):
