@@ -46,7 +46,7 @@ class DaikinWaterHeater(WaterHeaterEntity):
         print("DAMIANO Initializing WATER HEATER...")
         self._device = device
         self._supported_features = WaterHeaterEntityFeature.OPERATION_MODE
-        self.operation_list = device.water_heater_operations
+        self._operation_list = device.water_heater_operations
 
     @property
     def available(self):
