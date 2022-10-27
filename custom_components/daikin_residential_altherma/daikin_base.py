@@ -424,8 +424,7 @@ class Appliance(DaikinResidentialDevice):  # pylint: disable=too-many-public-met
             return await self.setValue(ATTR_LEAVINGWATER_OFFSET, value)
 
         if self.support_leaving_water_temperature:
-            stepValue=await self.getData(ATTR_TARGET_LEAVINGWATER_TEMPERATURE)["stepValue"]
-            if type(stepValue) == type(1):
+            if type(self.getData(ATTR_TARGET_LEAVINGWATER_TEMPERATURE)["stepValue"]) == type(1):
                 value = int(value)
             return await self.setValue(ATTR_TARGET_LEAVINGWATER_TEMPERATURE, value)
 

@@ -102,19 +102,18 @@ class DaikinWaterHeater(WaterHeaterEntity):
 
     async def async_set_operation_mode(self, operation_mode: str):
         curr_operation = self.current_operation
-        if curr_operation == STATE_OFF and operation_mode in [STATE_HEAT_PUMP,STATE_PERFORMANCE]:
-            await self._device.set_water_heater_operation_status(curr_operation,ATTR_STATE_ON)
-            self.async_schedule_update_ha_state(force_refresh=True)
 
-        if curr_operation == STATE_PERFORMANCE and operation_mode in [STATE_HEAT_PUMP,STATE_OFF]:
-            await self._device.set_water_heater_operation_status(curr_operation,ATTR_STATE_OFF)
-            self.async_schedule_update_ha_state(force_refresh=True)
-
-        if operation_mode == STATE_PERFORMANCE:
+        if operation_mode == STATE_HEAT_PUMP:
+            await self._device.set_water_heater_operation_status(operation_mode,ATTR_STATE_ON)
+        elif operation_mode == STATE_PERFORMANCE:
             await self._device.set_water_heater_operation_status(operation_mode,ATTR_STATE_ON)
         elif operation_mode == STATE_OFF:
             await self._device.set_water_heater_operation_status(operation_mode,ATTR_STATE_OFF)
 
+
+        if curr_operation == STATE_OFF and operation_mode == STATE_PERFORMANCE:
+            await self._device.set_water_heater_operation_status(curr_operation,ATTR_STATE_ON)
+        
         self.async_schedule_update_ha_state(force_refresh=True)
 
     async def async_update(self):
