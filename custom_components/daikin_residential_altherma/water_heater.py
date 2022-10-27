@@ -111,7 +111,7 @@ class DaikinWaterHeater(WaterHeaterEntity):
         if operation_mode == STATE_OFF:
             await self._device.set_water_heater_operation_status(operation_mode,ATTR_STATE_OFF)
 
-        self.async_schedule_update_ha_state(force_refresh=True)
+        self.async_schedule_update_ha_state()
 
     async def async_update(self):
         """Retrieve latest state."""
