@@ -214,7 +214,7 @@ class DaikinClimate(ClimateEntity):
 
         await self._device.async_set_temperature(kwargs[ATTR_TEMPERATURE])
         # ADDED for instant update
-        await self.async_schedule_update_ha_state(force_refresh=True)
+        self.async_schedule_update_ha_state(force_refresh=True)
 
     @property
     def hvac_mode(self):
@@ -229,7 +229,7 @@ class DaikinClimate(ClimateEntity):
     async def async_set_hvac_mode(self, hvac_mode):
         """Set HVAC mode."""
         await self._device.async_set_hvac_mode(HA_HVAC_TO_DAIKIN[hvac_mode])
-        await self.async_schedule_update_ha_state(force_refresh=True)
+        self.async_schedule_update_ha_state(force_refresh=True)
 
     @property
     def preset_mode(self):
@@ -247,7 +247,7 @@ class DaikinClimate(ClimateEntity):
             await self._device.set_preset_mode_status(curr_mode, ATTR_STATE_OFF)
         if preset_mode != PRESET_NONE:
             await self._device.set_preset_mode_status(preset_mode, ATTR_STATE_ON)
-        await self.async_schedule_update_ha_state(force_refresh=True)
+        self.async_schedule_update_ha_state(force_refresh=True)
 
     @property
     def preset_modes(self):
@@ -256,17 +256,17 @@ class DaikinClimate(ClimateEntity):
 
     async def async_update(self):
         """Retrieve latest state."""
-        await self.async_schedule_update_ha_state(force_refresh=True)
+        self.async_schedule_update_ha_state(force_refresh=True)
 
     async def async_turn_on(self):
         """Turn device CLIMATE on."""
         await self._device.setValue(ATTR_ON_OFF_CLIMATE, ATTR_STATE_ON)
-        await self.async_schedule_update_ha_state(force_refresh=True)
+        self.async_schedule_update_ha_state(force_refresh=True)
 
     async def async_turn_off(self):
         """Turn device CLIMATE off."""
         await self._device.setValue(ATTR_ON_OFF_CLIMATE, ATTR_STATE_OFF)
-        await self.async_schedule_update_ha_state(force_refresh=True)
+        self.async_schedule_update_ha_state(force_refresh=True)
 
     @property
     def device_info(self):
