@@ -116,13 +116,3 @@ class DaikinWaterHeater(WaterHeaterEntity):
     async def async_update(self):
         """Retrieve latest state."""
         await self._device.api.async_update()
-
-    async def async_turn_on(self):
-        """Turn device CLIMATE on."""
-        await self._device.setValue(ATTR_ON_OFF_TANK, ATTR_STATE_ON)
-        self.async_schedule_update_ha_state(force_refresh=True)
-
-    async def async_turn_off(self):
-        """Turn device CLIMATE off."""
-        await self._device.setValue(ATTR_ON_OFF_TANK, ATTR_STATE_OFF)
-        self.async_schedule_update_ha_state(force_refresh=True)

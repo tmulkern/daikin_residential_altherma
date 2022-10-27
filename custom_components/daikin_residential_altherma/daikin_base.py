@@ -45,6 +45,7 @@ from .const import(
     ATTR_TANK_IS_IN_WARNING_STATE,
     ATTR_TANK_IS_POWERFUL_MODE_ACTIVE,
     ATTR_TANK_ERROR_CODE,
+    ATTR_ON_OFF_POWERFUL_MODE
 )
 
 from homeassistant.components.climate.const import (
@@ -79,9 +80,9 @@ HA_PRESET_TO_DAIKIN = {
 }
 
 HA_WATER_HEATER_STATE_TO_DAIKIN = {
-    STATE_PERFORMANCE:"powerfulMode",
-    STATE_HEAT_PUMP:"onOffMode",
-    STATE_OFF:"onOffMode"
+    STATE_PERFORMANCE:ATTR_ON_OFF_POWERFUL_MODE,
+    STATE_HEAT_PUMP:ATTR_ON_OFF_TANK,
+    STATE_OFF:ATTR_ON_OFF_TANK
 }
 
 DAIKIN_HVAC_TO_HA = {
@@ -423,7 +424,7 @@ class Appliance(DaikinResidentialDevice):  # pylint: disable=too-many-public-met
             return await self.setValue(ATTR_LEAVINGWATER_OFFSET, value)
 
         if self.support_leaving_water_temperature:
-            return await self.setValue(ATTR_LEAVINGWATER_TEMPERATURE, value)
+            return await self.setValue(ATTR_TARGET_LEAVINGWATER_TEMPERATURE, value)
 
         return None
 
