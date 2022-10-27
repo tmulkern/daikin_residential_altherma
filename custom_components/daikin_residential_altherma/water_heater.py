@@ -104,17 +104,18 @@ class DaikinWaterHeater(WaterHeaterEntity):
         curr_operation = self.current_operation
         if curr_operation == STATE_OFF and operation_mode in [STATE_HEAT_PUMP,STATE_PERFORMANCE]:
             await self._device.set_water_heater_operation_status(curr_operation,ATTR_STATE_ON)
+            self.async_schedule_update_ha_state(force_refresh=True)
 
         if curr_operation == STATE_PERFORMANCE and operation_mode in [STATE_HEAT_PUMP,STATE_OFF]:
             await self._device.set_water_heater_operation_status(curr_operation,ATTR_STATE_OFF)
+            self.async_schedule_update_ha_state(force_refresh=True)
 
-        if operation_mode == STATE_PERFORMANCE and operation_mode in [STATE_HEAT_PUMP,STATE_OFF]:
+        if operation_mode == STATE_PERFORMANCE:
             await self._device.set_water_heater_operation_status(operation_mode,ATTR_STATE_ON)
         elif operation_mode == STATE_OFF:
             await self._device.set_water_heater_operation_status(operation_mode,ATTR_STATE_OFF)
 
-        # Causing UI flicker between states
-        #self.async_schedule_update_ha_state()
+        self.async_schedule_update_ha_state(force_refresh=True)
 
     async def async_update(self):
         """Retrieve latest state."""
